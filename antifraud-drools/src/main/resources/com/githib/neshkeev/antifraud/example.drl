@@ -1,0 +1,31 @@
+package com.githib.neshkeev.antifraud;
+
+import com.githib.neshkeev.antifraud.Main.Message;
+import com.githib.neshkeev.antifraud.Main.MessageStatus;
+
+global java.util.Set values
+
+dialect "java"
+
+rule "Hello Status"
+    when
+       $m : Message( status == MessageStatus.HELLO, message : message )
+    then
+        System.out.println("The message is: " + message );
+end
+
+rule "Message Allowed"
+    when
+        $m : Message( values.contains(message) )
+    then
+        System.out.println("Default: " + $m.message() );
+        insert(new Message("goodbye", MessageStatus.GOODBYE));
+end
+
+
+rule "Goodbye"
+    when
+        Message( status == MessageStatus.GOODBYE, message : message )
+    then
+        System.out.println("Goodbye message is " + message );
+end
