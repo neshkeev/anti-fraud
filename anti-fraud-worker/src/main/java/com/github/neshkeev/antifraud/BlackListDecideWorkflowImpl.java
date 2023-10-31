@@ -2,6 +2,7 @@ package com.github.neshkeev.antifraud;
 
 import com.githib.neshkeev.antifraud.workflow.BlackListDecideActivity;
 import com.githib.neshkeev.antifraud.workflow.BlackListDecideWorkflow;
+import com.githib.neshkeev.antifraud.workflow.Request;
 import io.temporal.activity.ActivityOptions;
 import io.temporal.common.RetryOptions;
 import io.temporal.workflow.Workflow;
@@ -38,7 +39,7 @@ public class BlackListDecideWorkflowImpl implements BlackListDecideWorkflow {
 
     // The method is the entry point to the Workflow.
     @Override
-    public boolean decide(Object o) {
+    public boolean decide(Request o) {
         return activity.decide(o);
     }
 }

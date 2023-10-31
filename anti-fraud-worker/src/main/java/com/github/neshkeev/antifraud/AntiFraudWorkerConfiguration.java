@@ -1,5 +1,6 @@
 package com.github.neshkeev.antifraud;
 
+import com.githib.neshkeev.antifraud.workflow.BlackListDecideActivity;
 import io.temporal.client.WorkflowClient;
 import io.temporal.serviceclient.WorkflowServiceStubs;
 import io.temporal.worker.Worker;
@@ -11,10 +12,10 @@ import org.springframework.context.annotation.Configuration;
 public class AntiFraudWorkerConfiguration {
 
     @Bean
-    public Worker worker() {
+    public Worker worker(BlackListDecideActivity activity) {
         Worker worker = factory().newWorker("BLACK_LIST_REQUEST_QUEUE");
         worker.registerWorkflowImplementationTypes(BlackListDecideWorkflowImpl.class);
-        worker.registerActivitiesImplementations(new BlackListDecideActivityImpl());
+        worker.registerActivitiesImplementations(activity);
 
         return worker;
     }

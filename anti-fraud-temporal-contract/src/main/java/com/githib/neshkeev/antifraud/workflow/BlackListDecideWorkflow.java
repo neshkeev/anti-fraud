@@ -7,5 +7,5 @@ import io.temporal.workflow.WorkflowMethod;
 public interface BlackListDecideWorkflow {
 
     @WorkflowMethod
-    boolean decide(Object o);
+    boolean decide(Request o);
 }

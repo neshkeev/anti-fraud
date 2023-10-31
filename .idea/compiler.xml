@@ -9,7 +9,7 @@
         <module name="anti-fraud-web" />
         <module name="anti-fraud-worker" />
         <module name="anti-fraud-drools" />
-        <module name="anti-fraud-temporal-workflow" />
+        <module name="anti-fraud-temporal-contract" />
         <module name="benchmark" />
       </profile>
     </annotationProcessing>

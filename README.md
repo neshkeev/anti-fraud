@@ -70,7 +70,7 @@ docker compose up -d
 
 ## Web Workflows
 
-Workflows can be triggered with a REST API request. In order to start a web server please execute the following commands:
+Workflows can be triggered with a REST API request. In order to start a web server, please execute the following commands:
 
 1. Start a Temporal Server as a Docker service:
 
@@ -86,7 +86,7 @@ docker compose up -d
 
 3. Start a worker:
 ```bash
-./mvnw compile -pl anti-fraud-temporal-workflow exec:java -Dexec.mainClass=com.githib.neshkeev.antifraud.workflow.HelloWorldWorker
+java -jar anti-fraud-worker/target/anti-fraud-worker-0.0.1-SNAPSHOT.jar
 ```
 
 4. Run the web server:
@@ -99,7 +99,4 @@ java -jar anti-fraud-web/target/anti-fraud-web-0.0.1-SNAPSHOT.jar
 curl -v http://localhost:18080/check -H 'Content-Type: application/json' -d '{}'
 ```
 
-6. Check the console with the worker:
-```bash
-curl -v http://localhost:18080/check -H 'Content-Type: application/json' -d '{}'
-```
+6. Check the console with the worker

@@ -23,7 +23,7 @@
 
     <modules>
         <module>anti-fraud-drools</module>
-        <module>anti-fraud-temporal-workflow</module>
+        <module>anti-fraud-temporal-contract</module>
         <module>anti-fraud-web</module>
         <module>anti-fraud-worker</module>
         <module>benchmark</module>
@@ -64,7 +64,7 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>anti-fraud-temporal-workflow</artifactId>
+                <artifactId>anti-fraud-temporal-contract</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

@@ -7,5 +7,5 @@ import io.temporal.activity.ActivityMethod;
 public interface BlackListDecideActivity {
 
     @ActivityMethod
-    boolean decide(Object o);
+    boolean decide(Request o);
 }
