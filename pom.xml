@@ -18,16 +18,27 @@
         <temporal.version>1.22.2</temporal.version>
         <junit.version>5.9.3</junit.version>
         <hamcrest.version>2.2</hamcrest.version>
+        <spring.version>3.1.5</spring.version>
     </properties>
 
     <modules>
         <module>anti-fraud-drools</module>
         <module>anti-fraud-temporal-workflow</module>
+        <module>anti-fraud-web</module>
         <module>benchmark</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
+            <!-- Spring -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-parent</artifactId>
+                <version>${spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <!-- Drools -->
             <dependency>
                 <groupId>org.kie</groupId>
@@ -35,10 +46,6 @@
                 <version>${drools.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.kie</groupId>
-                <artifactId>kie-api</artifactId>
             </dependency>
 
             <!-- Temporal -->
@@ -52,6 +59,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>anti-fraud-drools</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>anti-fraud-temporal-workflow</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
