@@ -18,7 +18,7 @@ export JAVA_HOME=./amazon-corretto-*/
 ```
 4. Clone the project:
 ```bash
-git clone https://github.com/neshkeev/antifraud.git
+git clone https://github.com/neshkeev/anti-fraud.git
 ```
 5. Enter the directory:
 ```bash
@@ -34,7 +34,7 @@ cd antifraud
 In order to run benchmarks execute:
 
 ```bash
-./mvnw clean package -T 2C &&
+./mvnw clean package -T 2C -PBenchmark &&
     java -XX:+HeapDumpOnOutOfMemoryError \
       -XX:HeapDumpPath=/tmp/DroolsRuleBenchmark-heapdump \
       -Xms2g \
