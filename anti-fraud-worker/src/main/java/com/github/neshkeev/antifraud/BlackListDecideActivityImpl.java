@@ -1,4 +1,6 @@
-package com.githib.neshkeev.antifraud.workflow;
+package com.github.neshkeev.antifraud;
+
+import com.githib.neshkeev.antifraud.workflow.BlackListDecideActivity;
 
 public class BlackListDecideActivityImpl implements BlackListDecideActivity {
 

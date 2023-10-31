@@ -8,14 +8,10 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <name>anti-fraud-web</name>
-    <artifactId>anti-fraud-web</artifactId>
+    <name>anti-fraud-worker</name>
+    <artifactId>anti-fraud-worker</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -25,6 +21,10 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>anti-fraud-temporal-workflow</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
     </dependencies>
 

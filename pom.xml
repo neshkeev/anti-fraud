@@ -25,6 +25,7 @@
         <module>anti-fraud-drools</module>
         <module>anti-fraud-temporal-workflow</module>
         <module>anti-fraud-web</module>
+        <module>anti-fraud-worker</module>
         <module>benchmark</module>
     </modules>
 
@@ -83,4 +84,23 @@
         </dependencies>
     </dependencyManagement>
 
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>UberJar</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>
