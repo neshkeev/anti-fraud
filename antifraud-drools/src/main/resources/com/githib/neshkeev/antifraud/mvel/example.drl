@@ -1,0 +1,18 @@
+package com.githib.neshkeev.antifraud.mvel;
+
+import com.githib.neshkeev.antifraud.Main.Message;
+import com.githib.neshkeev.antifraud.Main.MessageStatus;
+
+global java.util.Set values
+
+rule "Message Allowed MVEL"
+    dialect "mvel"
+    when
+        $m : Message( values.contains(message) )
+    then
+        // System.out.println("MVEL: " + $m.message() );
+        var msg = new Message( $m.message() + "MVEL", MessageStatus.GOODBYE );
+        insert(msg);
+        delete($m);
+        delete(msg);
+end

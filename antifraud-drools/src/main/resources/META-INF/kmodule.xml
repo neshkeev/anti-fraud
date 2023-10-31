@@ -5,4 +5,12 @@
         <ksession name="HelloWorldKS"/>
     </kbase>
 
+    <kbase packages="com.githib.neshkeev.antifraud.mvel">
+        <ksession name="HelloWorldKSMVEL"/>
+    </kbase>
+
+    <kbase packages="com.githib.neshkeev.antifraud.java">
+        <ksession name="HelloWorldKSJava"/>
+    </kbase>
+
 </kmodule>

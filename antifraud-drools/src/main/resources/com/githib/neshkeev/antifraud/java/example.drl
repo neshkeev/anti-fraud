@@ -1,0 +1,18 @@
+package com.githib.neshkeev.antifraud.java;
+
+import com.githib.neshkeev.antifraud.Main.Message;
+import com.githib.neshkeev.antifraud.Main.MessageStatus;
+
+global java.util.Set values
+
+rule "Message Allowed Java"
+    dialect "java"
+    when
+        $m : Message( values.contains(message) )
+    then
+        // System.out.println("JAVA: " + $m.message() );
+        var msg = new Message( $m.message() + "JAVA", MessageStatus.GOODBYE );
+        insert(msg);
+        delete($m);
+        delete(msg);
+end

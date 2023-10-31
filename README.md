@@ -28,3 +28,16 @@ cd antifraud
 ```bash
 ./mvnw compile -pl antifraud-drools exec:java -Dexec.mainClass=com.githib.neshkeev.antifraud.Main
 ```
+
+## Benchmarks
+
+In order to run benchmarks execute:
+
+```bash
+./mvnw clean package -T 2C &&
+    java -XX:+HeapDumpOnOutOfMemoryError \
+      -XX:HeapDumpPath=/tmp/DroolsRuleBenchmark-heapdump \
+      -Xms2g \
+      -Xmx2g \
+      -jar benchmark/target/benchmarks.jar
+```
