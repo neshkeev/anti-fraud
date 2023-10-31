@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.neshkeev.antifraud</groupId>
-    <artifactId>antifraud</artifactId>
+    <artifactId>anti-fraud</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>antifraud</name>
+    <name>anti-fraud</name>
     <packaging>pom</packaging>
 
     <properties>
@@ -21,12 +21,14 @@
     </properties>
 
     <modules>
-        <module>antifraud-drools</module>
+        <module>anti-fraud-drools</module>
+        <module>anti-fraud-temporal-workflow</module>
         <module>benchmark</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
+            <!-- Drools -->
             <dependency>
                 <groupId>org.kie</groupId>
                 <artifactId>kie-core-bom</artifactId>
@@ -35,19 +37,25 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>antifraud-drools</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.kie</groupId>
                 <artifactId>kie-api</artifactId>
             </dependency>
+
+            <!-- Temporal -->
             <dependency>
                 <groupId>io.temporal</groupId>
                 <artifactId>temporal-sdk</artifactId>
                 <version>${temporal.version}</version>
             </dependency>
+
+            <!-- Own modules -->
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>anti-fraud-drools</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- Tests -->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>

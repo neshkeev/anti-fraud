@@ -1,6 +1,6 @@
-# Antifraud research project
+# Anti-fraud research project
 
-The antifraud research project amis to explore the tech that is suitable for malicious activities detection
+The anti-fraud research project aims to explore the tech that is suitable for malicious activities detection
 
 ## Quickstart
 
@@ -26,7 +26,7 @@ cd antifraud
 ```
 5. Run the project:
 ```bash
-./mvnw compile -pl antifraud-drools exec:java -Dexec.mainClass=com.githib.neshkeev.antifraud.Main
+./mvnw compile -pl anti-fraud-drools exec:java -Dexec.mainClass=com.githib.neshkeev.antifraud.Main
 ```
 
 ## Benchmarks
@@ -40,4 +40,30 @@ In order to run benchmarks execute:
       -Xms2g \
       -Xmx2g \
       -jar benchmark/target/benchmarks.jar
+```
+
+## Temporal Workflows
+
+There is a hello world temporal workflow. In order to start it, please execute the following code:
+
+1. Start a Temporal Server as a Docker service:
+
+```bash
+docker compose up -d
+```
+
+2. Build the project:
+
+```bash
+./mvnw clean package -T 2C
+```
+
+3. Start a worker:
+```bash
+./mvnw compile -pl anti-fraud-temporal-workflow exec:java -Dexec.mainClass=com.githib.neshkeev.antifraud.workflow.HelloWorldWorker
+```
+
+4. Run a couple workflows
+```bash
+./mvnw compile -pl anti-fraud-temporal-workflow exec:java -Dexec.mainClass=com.githib.neshkeev.antifraud.workflow.WorkflowInitiator
 ```

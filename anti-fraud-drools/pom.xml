@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.github.neshkeev.antifraud</groupId>
-        <artifactId>antifraud</artifactId>
+        <artifactId>anti-fraud</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-	<name>antifraud-drools</name>
-    <artifactId>antifraud-drools</artifactId>
+	<name>anti-fraud-drools</name>
+    <artifactId>anti-fraud-drools</artifactId>
 
     <dependencies>
         <dependency>

@@ -26,15 +26,15 @@ public class RuleBenchmark {
         pool = kc.newKieSessionsPool(10);
     }
 
-     @Benchmark
-     public Object evalMVEL() {
-         return evalRule("HelloWorldKSMVEL");
-     }
+    @Benchmark
+    public Object evalMVEL() {
+        return evalRule("HelloWorldKSMVEL");
+    }
 
-     @Benchmark
-     public Object evalJava() {
-         return evalRule("HelloWorldKSJava");
-     }
+    @Benchmark
+    public Object evalJava() {
+        return evalRule("HelloWorldKSJava");
+    }
 
     public Object evalRule(String helloWorldKSMVEL) {
         KieSession kSession = pool.newKieSession(helloWorldKSMVEL);
