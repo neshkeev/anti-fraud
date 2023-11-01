@@ -100,3 +100,20 @@ curl -v http://localhost:18080/check -H 'Content-Type: application/json' -d '{}'
 ```
 
 6. Check the console with the worker
+
+## Performance Testing
+
+1. Start the docker services:
+```bash
+docker compose up --build
+```
+
+2. Run the performance tests against the HTTP implementation:
+```bash
+MSYS_NO_PATHCONV=1 docker compose exec -it k6 k6 run --vus 100 --duration 30s /index.js
+```
+
+3. Run the performance tests against the GRPC implementation:
+```bash
+MSYS_NO_PATHCONV=1 docker compose exec -it k6 k6 run --vus 100 --duration 30s /grpc.js
+```

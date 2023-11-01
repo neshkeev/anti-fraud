@@ -27,6 +27,20 @@ services:
       TEMPORAL_ADDRESS: temporal:7233
       WORKFLOW_WEB_PORT: 18080
 
+  workflow-grpc:
+    <<: *template
+    build:
+      context: .
+      dockerfile: local/Dockerfile
+    hostname: &name worker
+    container_name: *name
+    command: anti-fraud-grpc.jar
+    depends_on:
+      - postgres
+      - temporal
+    environment:
+      TEMPORAL_ADDRESS: temporal:7233
+
   worker:
     <<: *template
     build:
@@ -36,7 +50,7 @@ services:
     command: anti-fraud-worker.jar
     deploy:
       mode: replicated
-      replicas: 5
+      replicas: 3
       endpoint_mode: vip
     depends_on:
       - postgres
@@ -102,10 +116,13 @@ services:
     image: grafana/k6
     hostname: &name k6
     container_name: *name
-    command: run --vus 100 --duration 30s /index.js
+    entrypoint: tail -f /dev/null
     depends_on:
       - workflow
+      - workflow-grpc
       - worker
     volumes:
       - ./performance-tests/index.js:/index.js
+      - ./performance-tests/grpc.js:/grpc.js
+      - ./anti-fraud-temporal-contract/src/main/proto/anti_fraud.proto:/definitions/anti_fraud.proto
 

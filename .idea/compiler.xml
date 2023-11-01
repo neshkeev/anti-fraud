@@ -11,6 +11,7 @@
         <module name="anti-fraud-drools" />
         <module name="anti-fraud-temporal-contract" />
         <module name="benchmark" />
+        <module name="anti-fraud-grpc" />
       </profile>
     </annotationProcessing>
   </component>

@@ -3,6 +3,8 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/anti-fraud-drools/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/anti-fraud-drools/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/anti-fraud-grpc/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/anti-fraud-grpc/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/anti-fraud-temporal-contract/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/anti-fraud-temporal-contract/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/anti-fraud-web/src/main/java" charset="UTF-8" />
