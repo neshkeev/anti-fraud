@@ -1,56 +1,111 @@
+
 version: "3.8"
+networks:
+  antifraud_network:
+
+x-service-template: &template
+  restart: on-failure
+  extra_hosts:
+    host.docker.internal: host-gateway
+  networks:
+    - antifraud_network
+
 services:
-  postgresql:
-    container_name: temporal-postgresql
+  workflow:
+    <<: *template
+    build:
+      context: .
+      dockerfile: local/Dockerfile
+    hostname: &name workflow
+    container_name: *name
+    depends_on:
+      - postgres
+      - temporal
+    ports:
+      - "18080:18080"
+    environment:
+      TEMPORAL_ADDRESS: temporal:7233
+      WORKFLOW_WEB_PORT: 18080
+
+  worker:
+    <<: *template
+    build:
+      context: .
+      dockerfile: local/Dockerfile
+    hostname: worker
+    command: anti-fraud-worker.jar
+    deploy:
+      mode: replicated
+      replicas: 5
+      endpoint_mode: vip
+    depends_on:
+      - postgres
+      - temporal
+    environment:
+      TEMPORAL_ADDRESS: temporal:7233
+
+  postgres:
+    <<: *template
+    image: postgres
+    hostname: &name postgres
+    container_name: *name
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_PASSWORD: temporal
       POSTGRES_USER: temporal
-    image: postgres
-    networks:
-      - temporal-network
-    ports:
-      - 5432:5432
+
   temporal:
-    container_name: temporal
-    depends_on:
-      - postgresql
-    environment:
-      - DB=postgresql
-      - DB_PORT=5432
-      - POSTGRES_USER=temporal
-      - POSTGRES_PWD=temporal
-      - POSTGRES_SEEDS=postgresql
+    <<: *template
     image: temporalio/auto-setup
-    networks:
-      - temporal-network
-    ports:
-      - 7233:7233
-  temporal-admin-tools:
-    container_name: temporal-admin-tools
+    hostname: &name temporal
+    container_name: *name
     depends_on:
-      - temporal
+      - postgres
+    ports:
+      - "7233:7233"
     environment:
-      - TEMPORAL_ADDRESS=temporal:7233
-      - TEMPORAL_CLI_ADDRESS=temporal:7233
+      DB: postgres
+      DB_PORT: 5432
+      POSTGRES_USER: temporal
+      POSTGRES_PWD: temporal
+      POSTGRES_SEEDS: postgres
+
+  temporal-admin-tools:
+    <<: *template
     image: temporalio/admin-tools
-    networks:
-      - temporal-network
+    hostname: &name temporal-admin-tools
+    container_name: *name
     stdin_open: true
     tty: true
-  temporal-ui:
-    container_name: temporal-ui
     depends_on:
       - temporal
     environment:
-      - TEMPORAL_ADDRESS=temporal:7233
-      - TEMPORAL_CORS_ORIGINS=http://localhost:3000
+      TEMPORAL_ADDRESS: temporal:7233
+      TEMPORAL_CLI_ADDRESS: temporal:7233
+
+  temporal-ui:
+    <<: *template
     image: temporalio/ui
-    networks:
-      - temporal-network
+    hostname: &name temporal-ui
+    container_name: *name
+    depends_on:
+      - temporal
     ports:
-      - 8080:8080
-networks:
-  temporal-network:
-    driver: bridge
-    name: temporal-network
+      - "8080:8080"
+    environment:
+      TEMPORAL_ADDRESS: temporal:7233
+      TEMPORAL_CORS_ORIGINS: http://localhost:3000
+
+  k6:
+    <<: *template
+    image: grafana/k6
+    hostname: &name k6
+    container_name: *name
+    command: run --vus 100 --duration 30s /index.js
+    depends_on:
+      - workflow
+      - worker
+    volumes:
+      - ./performance-tests/index.js:/index.js
 

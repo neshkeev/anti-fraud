@@ -3,13 +3,18 @@ package com.github.neshkeev.antifraud;
 import com.githib.neshkeev.antifraud.workflow.BlackListDecideActivity;
 import io.temporal.client.WorkflowClient;
 import io.temporal.serviceclient.WorkflowServiceStubs;
+import io.temporal.serviceclient.WorkflowServiceStubsOptions;
 import io.temporal.worker.Worker;
 import io.temporal.worker.WorkerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AntiFraudWorkerConfiguration {
+
+    @Value("${temporal.target}")
+    private String temporalTarget;
 
     @Bean
     public Worker worker(BlackListDecideActivity activity) {
@@ -28,7 +33,11 @@ public class AntiFraudWorkerConfiguration {
 
     @Bean
     public WorkflowServiceStubs workflowServiceStubs() {
-        return WorkflowServiceStubs.newLocalServiceStubs();
+        final var temporalServiceConfig = WorkflowServiceStubsOptions.newBuilder()
+                        .setTarget(temporalTarget)
+                        .build();
+
+        return WorkflowServiceStubs.newServiceStubs(temporalServiceConfig);
     }
 
     @Bean

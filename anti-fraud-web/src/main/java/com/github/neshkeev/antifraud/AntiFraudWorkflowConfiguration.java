@@ -4,6 +4,8 @@ import com.githib.neshkeev.antifraud.workflow.BlackListDecideWorkflow;
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowOptions;
 import io.temporal.serviceclient.WorkflowServiceStubs;
+import io.temporal.serviceclient.WorkflowServiceStubsOptions;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +13,9 @@ import org.springframework.context.annotation.Scope;
 
 @Configuration
 public class AntiFraudWorkflowConfiguration {
+
+    @Value("${temporal.target}")
+    private String temporalTarget;
 
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -22,7 +27,12 @@ public class AntiFraudWorkflowConfiguration {
 
     @Bean
     public WorkflowServiceStubs workflowServiceStubs() {
-        return WorkflowServiceStubs.newLocalServiceStubs();
+        final var temporalServiceConfig =
+                WorkflowServiceStubsOptions.newBuilder()
+                        .setTarget(temporalTarget)
+                        .build();
+
+        return WorkflowServiceStubs.newServiceStubs(temporalServiceConfig);
     }
 
     @Bean
