@@ -5,7 +5,7 @@ const client = new grpc.Client();
 client.load(['definitions'], 'anti_fraud.proto');
 
 export default () => {
-  client.connect('workflow-grpc:7777', {
+  client.connect(`${__ENV.TEMPORAL_WORKFLOW_GRPC_ADDRESS}`, {
     plaintext: true
   });
 

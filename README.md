@@ -103,17 +103,56 @@ curl -v http://localhost:18080/check -H 'Content-Type: application/json' -d '{}'
 
 ## Performance Testing
 
-1. Start the docker services:
+### Stop everything
+
 ```bash
-docker compose up --build
+docker compose down
+docker compose --profile=base --profile=grpc --profile=rest --profile=perf --profile=worker -f ./docker-compose-perf.yml down
 ```
 
-2. Run the performance tests against the HTTP implementation:
+### Start the temporal server and postgres
+
 ```bash
-MSYS_NO_PATHCONV=1 docker compose exec -it k6 k6 run --vus 100 --duration 30s /index.js
+docker compose --profile=base -f ./docker-compose-perf.yml up --build -d
 ```
 
-3. Run the performance tests against the GRPC implementation:
+### Start REST Workflow
+
 ```bash
-MSYS_NO_PATHCONV=1 docker compose exec -it k6 k6 run --vus 100 --duration 30s /grpc.js
+TEMPORAL_ADDRESS=<TEMPORAL ADDRESS> docker compose --profile=rest -f ./docker-compose-perf.yml up --build -d
+```
+
+### Start GRPC Workflow
+
+```bash
+TEMPORAL_ADDRESS=<TEMPORAL ADDRESS> docker compose --profile=gprc -f ./docker-compose-perf.yml up --build -d
+```
+
+### Start Workers
+
+```bash
+TEMPORAL_ADDRESS=<TEMPORAL ADDRESS> POSTGRES_HOST=<POSTGRES HOST> docker compose --profile=worker -f ./docker-compose-perf.yml up --build -d
+```
+
+### Start REST Performance Testing
+
+```bash
+docker compose --profile=perf -f ./docker-compose-perf.yml down
+TEMPORAL_WORKFLOW_WEB_ADDRESS=<REST WORKFLOW HOST:PORT> TEMPORAL_WORKFLOW_GRPC_ADDRESS=<GRPC WORKFLOW HOST:PORT> docker compose --profile=perf -f ./docker-compose-perf.yml up --build -d
+TEMPORAL_WORKFLOW_WEB_ADDRESS=workflow:18080 TEMPORAL_WORKFLOW_GRPC_HOST=workflow-grpc:7777 docker compose --profile=perf -f ./docker-compose-perf.yml up --build -d
+MSYS_NO_PATHCONV=1 docker compose -f ./docker-compose-perf.yml exec -it k6 k6 run --vus 100 --duration 30s /index.js
+```
+
+### Start GRPC Performance Testing
+
+```bash
+docker compose --profile=perf down
+TEMPORAL_WORKFLOW_WEB_ADDRESS=<REST WORKFLOW HOST:PORT> TEMPORAL_WORKFLOW_GRPC_ADDRESS=<GRPC WORKFLOW HOST:PORT> docker compose --profile=perf -f ./docker-compose-perf.yml up --build -d
+MSYS_NO_PATHCONV=1 docker compose -f ./docker-compose-perf.yml exec -it k6 k6 run --vus 100 --duration 30s /grpc.js
+```
+
+### Stop Everything
+```
+docker compose --profile=base --profile=grpc --profile=rest --profile=perf --profile=worker -f ./docker-compose-perf.yml down
+docker compose down
 ```

@@ -18,11 +18,10 @@ services:
       dockerfile: local/Dockerfile
     hostname: &name workflow
     container_name: *name
-    depends_on:
-      - postgres
-      - temporal
     ports:
       - "18080:18080"
+    profiles:
+      - rest
     environment:
       TEMPORAL_ADDRESS: ${TEMPORAL_ADDRESS:-temporal:7233}
       WORKFLOW_WEB_PORT: 18080
@@ -35,9 +34,8 @@ services:
     hostname: &name workflow-grpc
     container_name: *name
     command: anti-fraud-grpc.jar
-    depends_on:
-      - postgres
-      - temporal
+    profiles:
+      - gprc
     environment:
       TEMPORAL_ADDRESS: ${TEMPORAL_ADDRESS:-temporal:7233}
 
@@ -52,9 +50,8 @@ services:
       mode: replicated
       replicas: 3
       endpoint_mode: vip
-    depends_on:
-      - postgres
-      - temporal
+    profiles:
+      - worker
     environment:
       TEMPORAL_ADDRESS: ${TEMPORAL_ADDRESS:-temporal:7233}
       POSTGRES_HOST: ${POSTGRES_HOST:-postgres}
@@ -71,6 +68,8 @@ services:
       - "5432:5432"
     volumes:
       - ./db:/docker-entrypoint-initdb.d/
+    profiles:
+      - base
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
@@ -85,6 +84,8 @@ services:
       - postgres
     ports:
       - "7233:7233"
+    profiles:
+      - base
     environment:
       DB: postgres
       DB_PORT: 5432
@@ -101,6 +102,8 @@ services:
     tty: true
     depends_on:
       - temporal
+    profiles:
+      - base
     environment:
       TEMPORAL_ADDRESS: temporal:7233
       TEMPORAL_CLI_ADDRESS: temporal:7233
@@ -114,6 +117,8 @@ services:
       - temporal
     ports:
       - "8080:8080"
+    profiles:
+      - base
     environment:
       TEMPORAL_ADDRESS: temporal:7233
       TEMPORAL_CORS_ORIGINS: http://localhost:3000
@@ -128,7 +133,8 @@ services:
       - ./performance-tests/index.js:/index.js
       - ./performance-tests/grpc.js:/grpc.js
       - ./anti-fraud-temporal-contract/src/main/proto/anti_fraud.proto:/definitions/anti_fraud.proto
+    profiles:
+      - perf
     environment:
       TEMPORAL_WORKFLOW_WEB_ADDRESS: ${TEMPORAL_WORKFLOW_WEB_ADDRESS:-workflow:18080}
       TEMPORAL_WORKFLOW_GRPC_ADDRESS: ${TEMPORAL_WORKFLOW_GRPC_ADDRESS:-workflow-grpc:7777}
-
