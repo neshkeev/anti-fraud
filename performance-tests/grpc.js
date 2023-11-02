@@ -9,7 +9,7 @@ export default () => {
     plaintext: true
   });
 
-  const data = { from: 'Bert', to: 'Alice', amount: 5555 };
+  const data = { from: 'sHbM54E6ULirHw35DZBCLj79All9eUrc', to: 'Alice', amount: 5555 };
   const response = client.invoke('com.github.neshkeev.antifraud.AntiFraud/Decide', data);
 
   check(response, {

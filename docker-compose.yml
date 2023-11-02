@@ -57,6 +57,10 @@ services:
       - temporal
     environment:
       TEMPORAL_ADDRESS: temporal:7233
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
 
   postgres:
     <<: *template
@@ -65,9 +69,12 @@ services:
     container_name: *name
     ports:
       - "5432:5432"
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/
     environment:
-      POSTGRES_PASSWORD: temporal
-      POSTGRES_USER: temporal
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
 
   temporal:
     <<: *template
@@ -81,8 +88,8 @@ services:
     environment:
       DB: postgres
       DB_PORT: 5432
-      POSTGRES_USER: temporal
-      POSTGRES_PWD: temporal
+      POSTGRES_USER: postgres
+      POSTGRES_PWD: postgres
       POSTGRES_SEEDS: postgres
 
   temporal-admin-tools:

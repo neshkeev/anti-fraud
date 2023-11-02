@@ -34,11 +34,8 @@ public class AntiFraudWorkflowController {
         final var workflow = this.workflow.getObject();
 
         final CompletableFuture<Boolean> execute = WorkflowClient.execute(workflow::decide, request);
-        try {
-            return Mono.fromCompletionStage(execute);
-        } finally {
-            System.out.println(Duration.between(current, LocalDateTime.now()).toMillis());
-        }
+            return Mono.fromCompletionStage(execute)
+                    .doOnNext(__ -> System.out.println(Duration.between(current, LocalDateTime.now()).toMillis()));
     }
 
     @PostMapping("/empty")

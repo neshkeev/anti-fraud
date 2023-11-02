@@ -1,0 +1,16 @@
+package com.githib.neshkeev.antifraud.blacklist;
+
+import com.githib.neshkeev.antifraud.workflow.Request;
+import com.githib.neshkeev.antifraud.workflow.BlacklistedRequest;
+
+global java.util.Set blackList
+
+rule "BlacklistedRequests"
+    dialect "java"
+    when
+        $request : Request( blackList.contains(from) || blackList.contains(to) )
+    then
+        var blacklistedRequest = new BlacklistedRequest($request);
+        delete($request);
+        insert(blacklistedRequest);
+end
