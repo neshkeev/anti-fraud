@@ -125,7 +125,7 @@ TEMPORAL_ADDRESS=<TEMPORAL ADDRESS> docker compose --profile=rest -f ./docker-co
 ### Start GRPC Workflow
 
 ```bash
-TEMPORAL_ADDRESS=<TEMPORAL ADDRESS> docker compose --profile=gprc -f ./docker-compose-perf.yml up --build -d
+TEMPORAL_ADDRESS=<TEMPORAL ADDRESS> docker compose --profile=grpc -f ./docker-compose-perf.yml up --build -d
 ```
 
 ### Start Workers
@@ -139,7 +139,6 @@ TEMPORAL_ADDRESS=<TEMPORAL ADDRESS> POSTGRES_HOST=<POSTGRES HOST> docker compose
 ```bash
 docker compose --profile=perf -f ./docker-compose-perf.yml down
 TEMPORAL_WORKFLOW_WEB_ADDRESS=<REST WORKFLOW HOST:PORT> TEMPORAL_WORKFLOW_GRPC_ADDRESS=<GRPC WORKFLOW HOST:PORT> docker compose --profile=perf -f ./docker-compose-perf.yml up --build -d
-TEMPORAL_WORKFLOW_WEB_ADDRESS=workflow:18080 TEMPORAL_WORKFLOW_GRPC_HOST=workflow-grpc:7777 docker compose --profile=perf -f ./docker-compose-perf.yml up --build -d
 MSYS_NO_PATHCONV=1 docker compose -f ./docker-compose-perf.yml exec -it k6 k6 run --vus 100 --duration 30s /index.js
 ```
 

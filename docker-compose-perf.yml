@@ -35,7 +35,7 @@ services:
     container_name: *name
     command: anti-fraud-grpc.jar
     profiles:
-      - gprc
+      - grpc
     environment:
       TEMPORAL_ADDRESS: ${TEMPORAL_ADDRESS:-temporal:7233}
 
